@@ -1,0 +1,91 @@
+{% extends 'sidebar.html' %}
+{% block content %}
+
+<header class="bg-white shadow-sm p-4 flex justify-between items-center">
+    <div>
+        <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
+        <p class="text-sm text-gray-500">Welcome back, {{ request.user.username }}!</p>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="flex items-center space-x-4">
+        <button class="bg-gray-100 p-2 rounded-full text-gray-600 hover:bg-gray-200">
+            <i class="fas fa-bell"></i>
+        </button>
+        <a href="{% url 'create_event' %}"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition duration-300">
+            <i class="fas fa-plus"></i>
+            <span>Create New Event</span>
+        </a>
+    </div>
+</header>
+
+<!-- Dashboard Content -->
+<div class="p-6">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Total Events</p>
+                    <h3 class="text-2xl font-bold text-gray-800">12</h3>
+                </div>
+                <div class="p-3 bg-blue-100 rounded-full text-blue-600">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-green-500 flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i>
+                <span>8% from last month</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Total Tickets</p>
+                    <h3 class="text-2xl font-bold text-gray-800">458</h3>
+                </div>
+                <div class="p-3 bg-green-100 rounded-full text-green-600">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-green-500 flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i>
+                <span>12% from last month</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Revenue</p>
+                    <h3 class="text-2xl font-bold text-gray-800">$5,245</h3>
+                </div>
+                <div class="p-3 bg-purple-100 rounded-full text-purple-600">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-green-500 flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i>
+                <span>23% from last month</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Attendees</p>
+                    <h3 class="text-2xl font-bold text-gray-800">325</h3>
+                </div>
+                <div class="p-3 bg-orange-100 rounded-full text-orange-600">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-green-500 flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i>
+                <span>15% from last month</span>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

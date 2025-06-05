@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}My Tickets{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold mb-8 flex items-center text-blue-700">
+        <i class="fas fa-ticket-alt text-blue-400 mr-3 transform transition-transform duration-300 hover:rotate-12"></i>
+        My Tickets
+    </h1>
+    
+    {% if tickets %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for ticket in tickets %}
+            <div class="transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-md border border-gray-800 h-full flex flex-col">
+                    <div class="{% if ticket.event.status == 'upcoming' %}bg-green-700{% elif ticket.event.status == 'ongoing' %}bg-yellow-600{% else %}bg-gray-700{% endif %} px-4 py-3 text-white">
+                        <h5 class="font-bold text-lg flex items-center">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            {{ ticket.event.title }}
+                        </h5>
+                    </div>
+                    <div class="p-5 text-gray-300 flex-grow">
+                        <p class="space-y-2">
+                            <span class="flex items-start">
+                                <i class="fas fa-hashtag w-5 mt-1 text-blue-400"></i>
+                                <span class="ml-2"><strong>Ticket Id:</strong> {{ ticket.ticket_number }}</span>
+                            </span>
+                            <span class="flex items-start">
+                                <i class="far fa-calendar w-5 mt-1 text-blue-400"></i>
+                                <span class="ml-2"><strong>Date:</strong> {{ ticket.event.start_time|date:"F d, Y" }}</span>
+                            </span>
+                            <span class="flex items-start">
+                                <i class="far fa-clock w-5 mt-1 text-blue-400"></i>
+                                <span class="ml-2"><strong>Time:</strong> {{ ticket.event.start_time|date:"g:i A" }}</span>
+                            </span>
+                            <span class="flex items-start">
+                                <i class="fas fa-map-marker-alt w-5 mt-1 text-blue-400"></i>
+                                <span class="ml-2"><strong>Location:</strong> {{ ticket.event.location }}</span>
+                            </span>
+                            <span class="flex items-start">
+                                <i class="fas fa-info-circle w-5 mt-1 text-blue-400"></i>
+                                <span class="ml-2">
+                                    <strong>Status:</strong> 
+                                    <span class="{% if ticket.event.status == 'upcoming' %}text-green-400{% elif ticket.event.status == 'ongoing' %}text-yellow-400{% else %}text-gray-400{% endif %}">
+                                        {{ ticket.event.status|title }}
+                                    </span>
+                                </span>
+                            </span>
+                        </p>
+                        <div class="mt-6 flex justify-center">
+                            <a href="{% url 'ticket_detail' ticket.id %}" class="bg-blue-950 hover:bg-blue-800 text-white py-2 px-6 rounded-md transition-colors duration-300 flex items-center">
+                                <i class="fas fa-eye mr-2"></i> View Ticket
+                            </a>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 px-4 py-3 text-gray-400 text-sm flex items-center">
+                        <i class="fas fa-shopping-cart mr-2"></i>
+                        Purchased on {{ ticket.purchased_at|date:"M d, Y" }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="bg-gray-900 border-l-4 border-blue-500 text-gray-300 p-6 rounded-lg shadow-md">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle text-blue-400 text-2xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-lg">You haven't purchased any tickets yet.</p>
+                    <a href="{% url 'my_tickets' %}" class="text-blue-400 hover:text-blue-300 mt-2 inline-block transition-colors duration-300 flex items-center">
+                        <i class="fas fa-arrow-right mr-2"></i> Browse Events
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    // Add animation to icons on hover
+    document.addEventListener('DOMContentLoaded', function() {
+        const icons = document.querySelectorAll('.fas, .far');
+        
+        icons.forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.classList.add('animate-pulse');
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                this.classList.remove('animate-pulse');
+            });
+        });
+    });
+</script>
+{% endblock %}

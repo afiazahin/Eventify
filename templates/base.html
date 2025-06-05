@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>{% block title %}Eventify{% endblock %}</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo and Brand -->
+                <div class="flex items-center">
+                    <a href="{% url 'home' %}" class="flex-shrink-0 flex items-center">
+                        <img class="h-10 w-auto" src="https://i.postimg.cc/GpfKqZ7L/eventify-logo.png"
+                            alt="Eventify Logo">
+                        <span class="ml-2 text-xl font-bold text-gray-800">Eventify</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links - Desktop -->
+                <div class="hidden md:flex md:items-center md:space-x-6">
+                    <a href="{% url 'home' %}"
+                        class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        <i class="fas fa-home mr-1"></i> Home
+                    </a>
+                    <a href="{% url 'event_view' %}"
+                        class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        <i class="fas fa-calendar-alt mr-1"></i> Events
+                    </a>
+                    <a href="{% url 'my_tickets' %}"
+                        class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        <i class="fas fa-ticket-alt mr-1"></i> My Tickets
+                    </a>
+                    <a href="{% url 'ContactUs' %}"
+                        class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                        <i class="fas fa-headset mr-1"></i> Support
+                    </a>
+
+                    {% if user.is_authenticated %}
+                    <div class="ml-4 relative flex items-center">
+                        <div class="flex items-center border border-gray-200 rounded-full px-3 py-1">
+                            <i class="fas fa-user-circle text-gray-600 mr-2"></i>
+                            <a href="{% url 'user_profile' %}"
+                                class="text-sm font-medium text-gray-700 hover:text-blue-600 hover:underline">
+                                Hi, {{ user.username }}
+                            </a>
+                        </div>
+                        <a href="{% url 'logout' %}"
+                            class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 transition duration-150">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="flex items-center space-x-2 ml-4">
+                        <a href="{% url 'login' %}"
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150">
+                            <i class="fas fa-sign-in-alt mr-1"></i> Login
+                        </a>
+                        <a href="{% url 'register' %}"
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
+                            <i class="fas fa-user-plus mr-1"></i> Register
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button type="button"
+                        class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600"
+                        aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="mobile-menu hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'home' %}"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition duration-150">
+                    <i class="fas fa-home mr-2"></i> Home
+                </a>
+                <a href="#"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition duration-150">
+                    <i class="fas fa-calendar-alt mr-2"></i> Events
+                </a>
+                <a href="#"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition duration-150">
+                    <i class="fas fa-ticket-alt mr-2"></i> My Tickets
+                </a>
+                <a href="#"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition duration-150">
+                    <i class="fas fa-headset mr-2"></i> Support
+                </a>
+
+                {% if user.is_authenticated %}
+                <div class="pt-2 border-t border-gray-200">
+                    <div class="flex items-center px-3 py-2">
+                        <i class="fas fa-user-circle text-gray-600 mr-2"></i>
+                        <a href="{% url 'user_profile' %}" class="text-sm font-medium text-blue-600 hover:underline">
+                           Hi, {{ user.username }}
+                        </a>
+                    </div>
+                    <a href="{% url 'logout' %}"
+                        class="block mt-1 px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-700 hover:bg-red-50 transition duration-150">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </a>
+                </div>
+                {% else %}
+
+                <div class="pt-4 pb-3 border-t border-gray-200">
+                    <a href="{% url 'login' %}"
+                        class="block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition duration-150">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login
+                    </a>
+                    <a href="{% url 'register' %}"
+                        class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition duration-150">
+                        <i class="fas fa-user-plus mr-2"></i> Register
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        <!-- Your content goes here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white">
+        <!-- Main Footer -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand Column -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <img class="h-10 w-auto" src="https://i.postimg.cc/GpfKqZ7L/eventify-logo.png"
+                            alt="Eventify Logo">
+                        <span class="ml-2 text-xl font-bold">Eventify</span>
+                    </div>
+                    <p class="text-blue-100 text-sm">
+                        The ultimate platform for discovering, booking, and managing tickets for events around you.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-100 hover:text-white transition">
+                            <i class="fab fa-facebook-f text-lg"></i>
+                        </a>
+                        <a href="#" class="text-blue-100 hover:text-white transition">
+                            <i class="fab fa-twitter text-lg"></i>
+                        </a>
+                        <a href="#" class="text-blue-100 hover:text-white transition">
+                            <i class="fab fa-instagram text-lg"></i>
+                        </a>
+                        <a href="#" class="text-blue-100 hover:text-white transition">
+                            <i class="fab fa-linkedin-in text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Browse Events</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Create Event</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">FAQ</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Contact Us</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-blue-100 hover:text-white transition">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-300"></i>
+                            <span class="text-blue-100">Farmgate,Dhaka</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-blue-300"></i>
+                            <span class="text-blue-100">+1 (555) 123-4567</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-blue-300"></i>
+                            <span class="text-blue-100">support@eventify.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div class="bg-blue-950 py-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-blue-200">© 2025 Eventify. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-sm text-blue-200 hover:text-white transition">Privacy</a>
+                        <a href="#" class="text-sm text-blue-200 hover:text-white transition">Terms</a>
+                        <a href="#" class="text-sm text-blue-200 hover:text-white transition">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+
+</html>

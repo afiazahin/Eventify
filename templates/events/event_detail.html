@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.title }} | Event Details{% endblock %}
+{% block content %}
+<div class="bg-gray-100 min-h-screen">
+    <!-- Event Banner -->
+    <div class="relative w-full h-80 md:h-96 overflow-hidden">
+        {% if event.banner %}
+        <img src="{{ event.banner.url }}" alt="{{ event.title }}" class="w-full h-full object-cover">
+        {% else %}
+        <div class="w-full h-full bg-gradient-to-r from-blue-500 to-blue-700 flex items-center justify-center">
+            <i class="fas fa-calendar-alt text-8xl text-white opacity-50"></i>
+        </div>
+        {% endif %}
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+    </div>
+
+    <!-- Event Information Card -->
+    <div class="container mx-auto px-4 relative">
+        <div class="bg-white rounded-lg shadow-xl -mt-24 md:-mt-32 relative z-10 mb-10">
+            <div class="p-6 md:p-10">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
+                    <div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-green-800 text-white text-sm px-3 py-1 rounded-full">
+                                {{ event.status|upper }}
+                            </span>
+                            {% if event.featured %}
+                            <span class="bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full">
+                                <i class="fas fa-star mr-1"></i> FEATURED
+                            </span>
+                            {% endif %}
+                            {% for category in event.categories.all %}
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                                {{ category }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">{{ event.title }}</h1>
+                        <p class="text-gray-500">Organized by: <span class="font-medium text-gray-700">{{event.organizer }}</span></p>
+                    </div>
+
+                    <div class="mt-6 md:mt-0">
+                        <a href="{% url 'buy_ticket' event.id %}"
+                            class="relative inline-flex items-center justify-center px-10 py-4 overflow-hidden font-medium tracking-tighter text-white bg-gray-600 rounded-lg group">
+                            <span
+                                class="absolute w-0 h-0 transition-all duration-500 ease-out bg-gray-800 rounded-full group-hover:w-56 group-hover:h-56"></span>
+                            <span
+                                class="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-blue-800"></span>
+                            <span class="relative flex items-center">
+                                <i class="fas fa-ticket-alt mr-2"></i> Buy Ticket Now!
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Event Meta Information -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-b border-gray-200 py-6 mb-8">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="far fa-calendar-alt text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Date & Time</h3>
+                            <!-- <p class="text-gray-600">{{ event.start_time|date:"D, M d, Y" }}</p> -->
+                            <p class="text-gray-600">{{ event.start_time|date:"D, M d, Y" }} - {{ event.end_time|date:"D, M d, Y" }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-map-marker-alt text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Location</h3>
+                            <p class="text-gray-600">{{ event.location }}</p>
+                            {% if event.venue_address %}
+                            <p class="text-gray-600">{{ event.venue_address }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-users text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Capacity</h3>
+                            {% if event.max_attendees > 0 %}
+                            <p class="text-gray-600">{{ event.max_attendees }} Attendees</p>
+                            {% else %}
+                            <p class="text-gray-600">Unlimited</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Ticket Price -->
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-dollar-sign text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Ticket Price</h3>
+                            {% if event.ticket_price > 0 %}
+                            <p class="text-gray-600">BDT {{ event.ticket_price }}</p>
+                            {% else %}
+                            <p class="text-gray-600">Free</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Description -->
+                <div class="mb-10">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Event Description</h2>
+                    <div class="prose max-w-none text-gray-700">
+                        {{ event.description|linebreaks }}
+                    </div>
+                </div>
+
+                <!-- Share Event -->
+                <div class="flex flex-col sm:flex-row justify-between items-center">
+                    <div class="mb-4 sm:mb-0">
+                        <h3 class="font-semibold text-gray-800 mb-2">Share this event:</h3>
+                        <div class="flex space-x-3">
+                            <a href="#"
+                                class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-blue-400 text-white p-2 rounded-full hover:bg-blue-600 transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-green-600 text-white p-2 rounded-full hover:bg-green-700 transition-colors">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-blue-900 text-white p-2 rounded-full hover:bg-blue-800 transition-colors">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'event_view' %}"
+                        class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to All Events
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
