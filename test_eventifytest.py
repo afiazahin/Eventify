@@ -57,9 +57,7 @@ def wait_and_click(driver, by_method, selector, timeout=10):
 class TestUserLoginAndTicket:
     def test_user_login(self):
         self.driver.get("http://127.0.0.1:8000/")
-        time.sleep(2)  
-
-        
+        time.sleep(2)
         try:
             self.driver.find_element(By.LINK_TEXT, "Login").click()
         except NoSuchElementException:
@@ -67,14 +65,11 @@ class TestUserLoginAndTicket:
                 self.driver.find_element(By.PARTIAL_LINK_TEXT, "Login").click()
             except NoSuchElementException:
                 self.driver.find_element(By.XPATH, "//a[contains(text(), 'Login')]").click()
-
         time.sleep(2)
         self.driver.find_element(By.ID, "username").clear()
         self.driver.find_element(By.ID, "username").send_keys("fahim")
         self.driver.find_element(By.ID, "password").clear()
         self.driver.find_element(By.ID, "password").send_keys("112233")
-
-        
         try:
             self.driver.find_element(By.CSS_SELECTOR, ".w-full > .fas").click()
         except NoSuchElementException:
@@ -82,31 +77,22 @@ class TestUserLoginAndTicket:
                 self.driver.find_element(By.XPATH, "//button[contains(@class, 'w-full')]").click()
             except NoSuchElementException:
                 self.driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-
-        time.sleep(3)  
-
-
-
+        time.sleep(3)
     def test_view_support_and_edit_profile(self):
         # Go to profile
         try:
             self.driver.find_element(By.CSS_SELECTOR, ".sm\\3Aw-auto").click()
         except NoSuchElementException:
             try:
-                
                 self.driver.find_element(By.XPATH,
                                          "//a[contains(text(), 'Profile') or contains(text(), 'Hi, fahim')]").click()
             except:
-               
                 try:
                     self.driver.find_element(By.XPATH,
                                              "//a[contains(@href, 'profile') or contains(@href, 'account')]").click()
                 except:
                     print("Couldn't find profile link, continuing with test")
-
         time.sleep(2)
-
-        
         try:
             self.driver.find_element(By.CSS_SELECTOR, ".transform:nth-child(4) .bg-blue-950").click()
         except NoSuchElementException:
@@ -118,8 +104,6 @@ class TestUserLoginAndTicket:
                 print("Couldn't find ticket details link, continuing with test")
 
         time.sleep(2)
-
-        
         try:
             self.driver.find_element(By.LINK_TEXT, "Back to My Tickets").click()
         except NoSuchElementException:
@@ -129,8 +113,6 @@ class TestUserLoginAndTicket:
                 print("Couldn't find 'Back to My Tickets' link, continuing with test")
 
         time.sleep(2)
-
-        
         try:
             self.driver.find_element(By.LINK_TEXT, "Support").click()
         except NoSuchElementException:
@@ -140,8 +122,6 @@ class TestUserLoginAndTicket:
                 print("Couldn't find Support link, continuing with test")
 
         time.sleep(2)
-
-        
         try:
             self.driver.find_element(By.LINK_TEXT, "Hi, fahim").click()
         except NoSuchElementException:
@@ -152,8 +132,6 @@ class TestUserLoginAndTicket:
                 print("Couldn't find profile link, continuing with test")
 
         time.sleep(2)
-
-        
         try:
             element = self.driver.find_element(By.CSS_SELECTOR, ".md\\3Aw-3\\/4")
             actions = ActionChains(self.driver)
@@ -162,8 +140,6 @@ class TestUserLoginAndTicket:
             print("Couldn't interact with profile element, continuing with test")
 
         time.sleep(1)
-
-        
         try:
             address_field = self.driver.find_element(By.ID, "address")
             address_field.click()
@@ -172,8 +148,6 @@ class TestUserLoginAndTicket:
             actions.double_click(address_field).perform()
             address_field.clear()
             address_field.send_keys("Mohammadpur")
-
-            
             try:
                 self.driver.find_element(By.CSS_SELECTOR, ".bg-blue-600").click()
             except NoSuchElementException:
@@ -183,7 +157,6 @@ class TestUserLoginAndTicket:
             print("Couldn't edit address field, continuing with test")
 
         time.sleep(2)
-
     def test_logout(self):
         # Try to view tickets
         try:
@@ -193,9 +166,7 @@ class TestUserLoginAndTicket:
                 self.driver.find_element(By.PARTIAL_LINK_TEXT, "Tickets").click()
             except:
                 print("Couldn't find tickets link, continuing with test")
-
         time.sleep(2)
-
         # Try to logout
         try:
             self.driver.find_element(By.LINK_TEXT, "Logout").click()
@@ -210,12 +181,9 @@ class TestUserLoginAndTicket:
                     print("Couldn't find logout link, continuing with test")
 
         time.sleep(2)
-
-
 @pytest.mark.usefixtures("setup")
 class TestOrganizerActions:
     def test_organizer_login(self):
-        
         try:
             current_url = self.driver.current_url
             if "login" not in current_url.lower() and "127.0.0.1:8000" not in current_url:
@@ -224,7 +192,6 @@ class TestOrganizerActions:
         except:
             self.driver.get("http://127.0.0.1:8000/")
             time.sleep(4)
-
         try:
             self.driver.find_element(By.LINK_TEXT, "Sign in as organizer").click()
         except NoSuchElementException:
@@ -236,16 +203,13 @@ class TestOrganizerActions:
                                              "//a[contains(text(), 'organizer') or contains(@href, 'organizer')]").click()
                 except:
                     print("Couldn't find organizer login link, continuing with test")
-
         time.sleep(4)
-
         # Enter login details
         try:
             self.driver.find_element(By.ID, "username").clear()
             self.driver.find_element(By.ID, "username").send_keys("kabir")
             self.driver.find_element(By.ID, "password").clear()
             self.driver.find_element(By.ID, "password").send_keys("112233")
-
             # Try to click login button
             try:
                 self.driver.find_element(By.CSS_SELECTOR, ".px-4").click()
@@ -259,7 +223,6 @@ class TestOrganizerActions:
             print("Login form not found or couldn't be filled, continuing with test")
 
         time.sleep(4)
-
     def test_edit_event_and_add_info(self):
         # Try to go to event management section
         try:
