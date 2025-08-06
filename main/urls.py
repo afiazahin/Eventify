@@ -34,19 +34,6 @@ urlpatterns = [
     path('user_profile/', user_profile, name='user_profile'),
     path('contact/', ContactUs, name='ContactUs'),
 
-    # organizer urls
-    path('register_organizer/', register_organizer, name='register_organizer'),
-    path('login_organizer/', login_organizer, name='login_organizer'),
-    path('logout_organizer/', logout_organizer, name='logout_organizer'),
-    path('organizer_dashboard/', dashboard, name='dashboard'),
-    path('events/', event_list, name='event_list'),
-    path('events/create/', create_event, name='create_event'),
-    path('events/<int:event_id>/edit/', update_event, name='update_event'),
-    path('events/<int:event_id>/delete/', delete_event, name='delete_event'),
-    path('organizer/tickets/', organizer_tickets, name='organizer_tickets'),
-    path('organizer/analytics/', organizer_analytics, name='organizer_analytics'),
-    path('organizer/profile/', organizer_profile, name='organizer_profile'),
-
     
     path('admin/', admin.site.urls),
 ]

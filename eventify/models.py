@@ -16,24 +16,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-# Organizer Profile
-class OrganizerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    organization_name = models.CharField(max_length=255, blank=True, null=True)
-    organization_address = models.TextField(blank=True, null=True)
-    contact_number = models.CharField(max_length=15, blank=True, null=True)
-    logo = models.ImageField(upload_to='organizer_logos/', blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.organization_name or self.user.username
-
-# Event Category
-class EventCategory(models.Model):
-    name = models.CharField(max_length=100)
-    
-    def __str__(self):
-        return self.name
 
 # Event Model
 class Event(models.Model):
@@ -43,8 +26,7 @@ class Event(models.Model):
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
     )
-    
-    organizer = models.ForeignKey(OrganizerProfile, on_delete=models.CASCADE)
+
     title = models.CharField(max_length=255)
     description = models.TextField()
     banner = models.ImageField(upload_to='event_banners/', blank=True, null=True)

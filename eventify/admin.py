@@ -3,7 +3,6 @@ from .models import *
 
 # Register your models here.
 admin.site.register(UserProfile)
-admin.site.register(OrganizerProfile)
 admin.site.register(EventCategory)
 admin.site.register(Event)
 admin.site.register(Order)
